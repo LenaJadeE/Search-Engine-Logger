@@ -1,13 +1,36 @@
 package com.pluralsight;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class SearchEngineLogger {
     private static final String LogFile = "log.txt";
     private static final DateTimeFormatter TIMESTAMP = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
+        logAction("launch");
+
+        while (true) {
+            System.out.print("Enter a search term (X or x to exit): ");
+            String term = scanner.nextLine().trim();
+
+            if (term.equalsIgnoreCase("x")) {
+                logAction("exit");
+                break;
+            }
+
+            if (term.isEmpty()) {
+                continue;
+            }
+
+
+            logAction("search : " + term);
+            System.out.println("Searching for: " + term);
+        }
+
+        System.out.println("Goodbye!");
     }
 }
 
