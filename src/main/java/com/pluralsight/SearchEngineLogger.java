@@ -25,7 +25,6 @@ public class SearchEngineLogger {
                 continue;
             }
 
-
             logAction("search : " + term);
             System.out.println("Searching for: " + term);
         }
