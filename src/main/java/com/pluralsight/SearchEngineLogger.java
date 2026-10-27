@@ -1,5 +1,9 @@
 package com.pluralsight;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -30,6 +34,17 @@ public class SearchEngineLogger {
         }
 
         System.out.println("Goodbye!");
+    }
+
+    private  static void logAction(String action) {
+        String entry = LocalDateTime.now().format(TIMESTAMP) + " " + action;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LogFile, true))) {
+            writer.write(entry);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Error: Could not write to " + LogFile + ": " + e.getMessage());
+        }
     }
 }
 
