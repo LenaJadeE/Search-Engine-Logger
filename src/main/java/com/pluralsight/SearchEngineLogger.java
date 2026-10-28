@@ -34,7 +34,12 @@ public class SearchEngineLogger {
 
             switch (scanner.nextLine().trim()) {
                 case "1" -> search(scanner);
-
+                case "2" -> showTodaysSearches();
+                case "3" -> {
+                    logAction("exit");
+                    running = false;
+                }
+                default -> System.out.println("Please enter 1, 2 or 3.");
             }
         }
 
