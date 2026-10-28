@@ -1,20 +1,44 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class SearchEngineLogger {
+    //Doing the Stretch goal
     private static final String LogFile = "log.txt";
     private static final DateTimeFormatter TIMESTAMP = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final int DateLength = 10;
+    private static final int ActionStart = 20;
+    private static final String SearchMarker = "search : ";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         logAction("launch");
+
+        boolean running = true;
+        while (running) {
+            System.out.println();
+            System.out.println("1- Search for a term");
+            System.out.println("2- Show today's searches");
+            System.out.println("3- Exit");
+            System.out.print("Enter command: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> search(scanner);
+
+            }
+        }
+
+
 
         while (true) {
             System.out.print("Enter a search term (X or x to exit): ");
