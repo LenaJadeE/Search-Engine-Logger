@@ -43,26 +43,20 @@ public class SearchEngineLogger {
             }
         }
 
+        System.out.println("Goodbye!");
+    }
 
+    private  static void search(Scanner scanner) {
+        System.out.println("Enter a search term: ");
+        String term = scanner.nextLine().trim();
 
-        while (true) {
-            System.out.print("Enter a search term (X or x to exit): ");
-            String term = scanner.nextLine().trim();
-
-            if (term.equalsIgnoreCase("x")) {
-                logAction("exit");
-                break;
-            }
-
-            if (term.isEmpty()) {
-                continue;
-            }
-
-            logAction("search : " + term);
-            System.out.println("Searching for: " + term);
+        if (term.isEmpty()) {
+            System.out.println("Nothing to search for.");
+            return;
         }
 
-        System.out.println("Goodbye!");
+        logAction(SearchMarker + term);
+        System.out.println("Searching for: " + term);
     }
 
     private  static void logAction(String action) {
@@ -75,6 +69,33 @@ public class SearchEngineLogger {
             System.out.println("Error: Could not write to " + LogFile + ": " + e.getMessage());
         }
     }
+
+    private static  void showTodaysSearches() {
+        LocalDate today = LocalDate.now();
+        int found = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(LogFile))){
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (isSearchFrom(line, today)) {
+                    String time = line.substring(DateLength + 1, DateLength + 9);
+                    String term = line.substring(ActionStart + SearchMarker.length());
+                    System.out.println(time + " " + term);
+                    found++;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("There is no log to read yet.");
+            return;
+        }
+
+        if (found == 0) {
+            System.out.println("No searches today.");
+        }
+    }
+
+
+
 }
 
 
