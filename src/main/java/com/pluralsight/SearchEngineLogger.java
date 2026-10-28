@@ -46,7 +46,7 @@ public class SearchEngineLogger {
         System.out.println("Goodbye!");
     }
 
-    private  static void search(Scanner scanner) {
+    private static void search(Scanner scanner) {
         System.out.println("Enter a search term: ");
         String term = scanner.nextLine().trim();
 
@@ -59,7 +59,7 @@ public class SearchEngineLogger {
         System.out.println("Searching for: " + term);
     }
 
-    private  static void logAction(String action) {
+    private static void logAction(String action) {
         String entry = LocalDateTime.now().format(TIMESTAMP) + " " + action;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(LogFile, true))) {
@@ -70,11 +70,11 @@ public class SearchEngineLogger {
         }
     }
 
-    private static  void showTodaysSearches() {
+    private static void showTodaysSearches() {
         LocalDate today = LocalDate.now();
         int found = 0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(LogFile))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(LogFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (isSearchFrom(line, today)) {
@@ -94,10 +94,17 @@ public class SearchEngineLogger {
         }
     }
 
-
-
+    private static boolean isSearchFrom(String line, LocalDate date) {
+        if (line.length() < ActionStart || !line.startsWith(SearchMarker, ActionStart)) {
+            return false;
+        }
+        try {
+            return LocalDate.parse(line.substring(0, DateLength)).equals(date);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
 }
-
 
 //  EXERCISE 3
 //      Create a Java application named search-engine-logger.
@@ -106,7 +113,7 @@ public class SearchEngineLogger {
 //      Actions include:
 //          a. Launching the application
 //          b. Searching for a term
-//          c. Exiting the application
+//          c. Exiting the applicatio0
 //      In the main() method prompt the user for a search term that they wish to search.
 //          Example
 //              Enter a search term (X or x to exit):
